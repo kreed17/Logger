@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import { set } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 import { Link ,useNavigate} from 'react-router-dom';
 import Td from '../components/Td';
-import logData from '../data'
 import { dateTime } from '../time';
 import './Home.css';
 
 
 function Home() {
-    const [logs, setLog] = useState(logData);
+    const [logs, setLog] = useState([]);
     const [input, setInput] = useState('');
     let navigate = useNavigate();
 
+    useEffect(() => {
+        async function fetchData() {
+            const res = await axios.get('http://localhost:5001')
+            console.log(res.data);
+            setLog(res.data)
+
+        }
+        fetchData();
+    }, [])
     
     function handleSubmit(e) {
         e.preventDefault();
@@ -61,11 +71,11 @@ function Home() {
             </div>
             <h3>Current Logs</h3>
             <div className="table">
-                <table>
+                <table className='table-contents'> 
                 <thead>
                 <tr>
                     <th className='name'>Name</th>
-                    <th className='update'>Last Updated</th>
+                    <th className='update'>Date Created</th>
                    <th className='action'>Action</th>
                     </tr>
                     </thead>
@@ -73,8 +83,10 @@ function Home() {
                         {
                             logs.map(log => (
                                 <tr key={log.id}>
-                                    <td>{ log.name}</td>
-                                    <td>{ log.lastUpdate}</td>
+                                    <Link to={`/${log.name}`} style={{color:'inherit'}}>
+                                    <td>{log.name}</td>
+                                        </Link>
+                                    <td>{log.lastUpdate}</td>
                                     <td>
                                         <button type='button' onClick={() =>handleDelete(log.id)}>X</button>
                                     </td>

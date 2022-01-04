@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import {logData} from '../data';
-import {dateTime, timeLength} from '../time'
+import { dateTime, timeLength } from '../time';
+import './Logger.css'
 
 
 function Logger() {
-    const [logins, setLogin] = useState(logData[0].logs);
+    const [logins, setLogin] = useState([]);
     const [totaltime, setTotalTime] = useState('');
     let { id } = useParams();
 
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         const res = await axios.get('http://localhost:5001')
+    //         console.log(res.data);
+    //         setLog(res.data)
+    //     }
+    //     fetchData();
+    // }, [])
+    
     function login() {
         let loginTime = dateTime();
         const newLogin = {
@@ -18,7 +28,7 @@ function Logger() {
             duration: ""
         }
         setLogin([...logins, newLogin])
-
+        console.log(logins);
     }
     
     function logout() {
@@ -58,7 +68,7 @@ function Logger() {
         </div>
         <h3>Current Logs</h3>
         <div className="table">
-                <table>
+                <table className='table-contents'>
                     <thead>
                 <tr>
                     <th className='login'>Logged in</th>

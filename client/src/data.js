@@ -1,4 +1,4 @@
-export const logData = [
+const logData = [
      {  id:1,
         name: "Coding",
         lastUpdate: "12/10/2021",
@@ -33,7 +33,7 @@ export const logData = [
         lastUpdate:"11/07/2021"
     }
 ]
-export const coding = [
+const coding = [
     {
         login: "12/11/2021  12:32pm",
         logout: "12/11/2021  1:45pm",
@@ -52,4 +52,4 @@ export const coding = [
 
     }
 ]
-export default logData;
+module.exports= logData;

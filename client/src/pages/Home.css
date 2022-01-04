@@ -3,7 +3,10 @@
   margin-left: auto;
   margin-right: auto;
 }
-
+.table-contents{
+  margin-left: auto;
+  margin-right: auto;
+}
 .tablename{
   font-size: large;
   color: yellow;
