@@ -1,0 +1,21 @@
+
+
+
+.list-container{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+.login-logout{
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+
+
+
+

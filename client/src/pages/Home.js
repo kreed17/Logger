@@ -1,26 +1,30 @@
 import axios from 'axios';
-import { set } from 'date-fns';
 import React, { useEffect, useState } from 'react';
-import { Link ,useNavigate} from 'react-router-dom';
-import Td from '../components/Td';
+import { Link } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
+//import LogRow from '../components/LogRow';
+//import Td from '../components/Td';
 import { dateTime } from '../time';
 import './Home.css';
+
+
 
 
 function Home() {
     const [logs, setLog] = useState([]);
     const [input, setInput] = useState('');
+    const [update,setUpdate] = useState(false)
     let navigate = useNavigate();
 
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get('http://localhost:5001')
-            console.log(res.data);
+            const res = await axios.get('http://localhost:5001/api/log')
             setLog(res.data)
-
+            setUpdate(false)
+            //console.log(res.data);
         }
         fetchData();
-    }, [])
+    }, [update])
     
     function handleSubmit(e) {
         e.preventDefault();
@@ -32,32 +36,46 @@ function Home() {
         }
         else {
             let today = dateTime("date");
-            const newLog = {
-                id: Date.now(),
+            const newLog = {                
                 name: input,
-                lastUpdate: today,
+                dateCreated: today,
                 logs: []
             };
-            setLog([...logs,newLog])
-            setInput('');
-        }
-        
-    }
-    function handleClick(name) {
-        navigate(`/${name}`)
-        console.log("link");
-    }
+            //console.log(newLog);
+            axios.post("http://localhost:5001/api/log", newLog)
+                .then((res) => {
+                    setUpdate(true)
+                    setInput('');
+                    console.log(res.data);
+                }).catch((err) => {
+                    console.log("Error couldnt create Log ", err.message);
+                });
+        };        
+    };
 
-    function handleDelete(id) {
-        const newList =logs.filter(log=>log.id !== id)
+    // function handleClick(name) {
+    //     navigate(`/${name}`)
+    //     console.log("link");
+    // }
+
+    function handleDelete(id) {       
+        axios.delete(`http://localhost:5001/api/log/${id}`)
+        .then((res) => {
+            setUpdate(true)
+            console.log(res.data);
+        }).catch((err) => {
+            console.log("Error couldnt Delete Log ", err.message);
+        });
+        const newList = logs.filter(log => log.id !== id)
         setLog(newList);
+        setUpdate(true)
     }
 
     return (
         <div className="container">
-            <h1>Logger</h1>
+            <h1 className='title'>Logger</h1>
             <div>
-                <form onSubmit={handleSubmit}>
+                <form className='form-content' onSubmit={handleSubmit}>
                     <label>
                         <input
                             type='text'
@@ -66,34 +84,35 @@ function Home() {
                           placeholder="Enter Log Name" 
                         />
                     </label>
-                        <button type='submit'>Create Logger</button>
+                        {/* <button type='submit'>Create Logger</button> */}
                 </form>
+                <h2>Current Logs</h2>
             </div>
-            <h3>Current Logs</h3>
-            <div className="table">
-                <table className='table-contents'> 
+            <div className="home-table">
+                <table className='table-content'> 
                 <thead>
-                <tr>
+                {/* <tr className='table-headers'>
                     <th className='name'>Name</th>
                     <th className='update'>Date Created</th>
-                   <th className='action'>Action</th>
-                    </tr>
+                    <th className='action'>Action</th>
+                </tr> */}
                     </thead>
+                
                     <tbody>
                         {
                             logs.map(log => (
-                                <tr key={log.id}>
-                                    <Link to={`/${log.name}`} style={{color:'inherit'}}>
-                                    <td>{log.name}</td>
-                                        </Link>
-                                    <td>{log.lastUpdate}</td>
+                                <tr key={log._id}>
+                                    {/* <Link to={`/${log.name}`} style={{color:'inherit'}}> */}
+                                    <td className="log-name" onClick={() => navigate(`/${log.name}`)}>{log.name}</td>
+                                        
+                                    <td>{log.dateCreated}</td>
                                     <td>
-                                        <button type='button' onClick={() =>handleDelete(log.id)}>X</button>
-                                    </td>
-                                    
+                                        <button type='button' onClick={() =>handleDelete(log._id)}>X</button>
+                                    </td>                                    
                                 </tr>
                             ))
-                        }                            
+                        }                             
+                        
                 </tbody>
             </table>
         </div>

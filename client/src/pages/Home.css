@@ -1,15 +1,57 @@
-.container {
+/* .container {
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
-}
-.table-contents{
+} */
+/* .table-contents{
   margin-left: auto;
   margin-right: auto;
-}
-.tablename{
+} */
+/* .tablename{
   font-size: large;
   color: yellow;
   color: inherit;
   text-decoration: none;
+} */
+
+.title {
+  font-size: 50px;
+}
+
+input {
+  width: 50%;
+border: none;
+border-bottom: 2px solid #B37A4C;
+text-align: center;
+font-size: 30px;
+color:#B37A4C;
+
+}
+input:focus, textarea:focus, select:focus{
+  outline: none;
+  align-items: center;
+  justify-content: center;
+}
+.home-table {  
+  background-color: #FAF9F6;
+  margin-top: 20px;
+  border: 1px solid white;
+}
+.table-content{
+  margin-left: auto;
+  margin-right: auto;
+width: 50%;
+font-size: 20px;
+}
+.table-headers {
+font-size: 20px;
+}
+
+.table-contents {
+
+}
+
+.log-name:hover{
+  color: blueviolet;
+  cursor: pointer;
 }

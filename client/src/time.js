@@ -12,7 +12,7 @@ function dateTime(type) {
         let currTime = today + " "
             + hours + ":"
             + ('0' + date.getMinutes()).slice(-2)
-            + ((date.getHours() > 12) ? ('pm') : 'am');
+            + ((date.getHours() >= 12) ? ('pm') : 'am');
         return currTime
     }
 }
@@ -20,6 +20,7 @@ function dateTime(type) {
 
 function timeLength(date1, date2) {   
     const dateFormat = (date) => {
+        //console.log(date);
         let time = date.substr(11, 13);
         date = date.substr(0, 10);
         let hours = parseInt(time.substr(0, 2));
@@ -27,12 +28,13 @@ function timeLength(date1, date2) {
             time = time.replace('12', '0');
         }
         if (time.indexOf('pm') !== -1 && hours < 12) {
-             time = time.replace(hours, (hours + 12));
-            date = date +" "+time
-           // console.log(date)
-            date = date.replace(/(am|pm)/, ':00');
-            return date;
+             time = time.replace(hours, (hours + 12));            
         }
+            date = date +" "+time
+            date = date.replace(/(am|pm)/, ':00');
+            //console.log(date);
+            return date;
+        
     }
     let login = new Date(dateFormat(date1))
     let logout = new Date(dateFormat(date2));
@@ -48,13 +50,14 @@ function timeLength(date1, date2) {
    }
     //console.log(login);
     //console.log(logout);
+    //console.log(diff);
 return (hours > 0? `${hours}hrs`:"",`${minutes}mins`)
 }
 
 
-function totalTime() {
+ function totalTime() {
     
-}
+ }
 
 
 export {dateTime, timeLength} 
