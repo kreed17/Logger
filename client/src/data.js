@@ -1,4 +1,4 @@
-const logData = [
+const startData = [
      {  id:1,
         name: "Coding",
         lastUpdate: "12/10/2021",
